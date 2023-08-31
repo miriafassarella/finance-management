@@ -32,4 +32,14 @@ public class CategoryService {
 	public Category add(Category category) {
 		return categoryRepository.save(category);
 	}
+	
+	public void remove(Long categoryId) {
+		Optional<Category> category = categoryRepository.findById(categoryId);
+		
+		if(category.isEmpty()) {
+			throw new EntityNotFoundException(String.format("Code entity %d not found!", categoryId));
+		}else {
+			categoryRepository.delete(category.get());
+		}
+	}
 }
