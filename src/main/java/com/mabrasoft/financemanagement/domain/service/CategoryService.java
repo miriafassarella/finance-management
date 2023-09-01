@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mabrasoft.financemanagement.domain.exceptions.EntityNotFoundException;
 import com.mabrasoft.financemanagement.domain.model.Category;
 import com.mabrasoft.financemanagement.domain.repository.CategoryRepository;
 
@@ -23,23 +22,16 @@ public class CategoryService {
 	public Category search(Long categoryId) {
 		Optional<Category> category =  categoryRepository.findById(categoryId);
 		
-		if(category.isPresent()) {
 			return category.get();
-		}
-			throw new EntityNotFoundException(String.format("Code entity %d not found!", categoryId));
-		}
+	}
 	
 	public Category add(Category category) {
 		return categoryRepository.save(category);
 	}
 	
 	public void remove(Long categoryId) {
-		Optional<Category> category = categoryRepository.findById(categoryId);
 		
-		if(category.isEmpty()) {
-			throw new EntityNotFoundException(String.format("Code entity %d not found!", categoryId));
-		}else {
-			categoryRepository.delete(category.get());
-		}
+		Optional<Category> category = categoryRepository.findById(categoryId);
+		categoryRepository.delete(category.get());
 	}
 }
