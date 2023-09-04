@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.mabrasoft.financemanagement.domain.model.Category;
 import com.mabrasoft.financemanagement.domain.service.CategoryService;
 
+import ch.qos.logback.core.net.SocketConnector.ExceptionHandler;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -43,7 +46,7 @@ public class CategoryController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Category> categoryAdd(@RequestBody Category category, HttpServletResponse response){
+	public ResponseEntity<Category> categoryAdd(@Valid @RequestBody Category category, HttpServletResponse response){
 		category = categoryService.add(category);
 		
 		URI  uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/id")
