@@ -1,5 +1,8 @@
 package com.mabrasoft.financemanagement.exceptionhendler;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -10,16 +13,17 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionHandler {
+public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ControllerAdvice
-	public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
+		@Autowired
+		private MessageSource messageSource;
 
 		@Override
 		protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 				HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 			
-			return handleExceptionInternal(ex, "Invalid message!", headers, HttpStatus.BAD_REQUEST, request);
+			String userMessage = messageSource.getMessage("message.invalid", null, LocaleContextHolder.getLocale());
+			return handleExceptionInternal(ex, userMessage, headers, HttpStatus.BAD_REQUEST, request);
 		}
 	}
-}
+
