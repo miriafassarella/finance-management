@@ -1,6 +1,7 @@
 package com.mabrasoft.financemanagement.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,10 @@ public class PersonService {
 	
 	public List<Person> list(){
 		return personRepository.findAll();
-	
 	}
+	public Person search(Long personId) {
+		Optional<Person> person = personRepository.findById(personId);
+		return person.get();
+	}
+	
 }
