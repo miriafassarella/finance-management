@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.mabrasoft.financemanagement.domain.model.Category;
 import com.mabrasoft.financemanagement.domain.service.CategoryService;
 
-import ch.qos.logback.core.net.SocketConnector.ExceptionHandler;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -51,7 +51,7 @@ public class CategoryController {
 		
 		URI  uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/id")
 		.buildAndExpand(category.getId()).toUri();
-		response.setHeader("Location", uri.toASCIIString());
+		response.setHeader("Location", uri.toASCIIString());//header location
 		
 		return ResponseEntity.created(uri).body(category);
 	}

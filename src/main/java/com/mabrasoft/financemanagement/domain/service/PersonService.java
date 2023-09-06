@@ -22,5 +22,11 @@ public class PersonService {
 		Optional<Person> person = personRepository.findById(personId);
 		return person.get();
 	}
-	
+	public Person add(Person person) {
+		return personRepository.save(person);
+	}
+	public void remove(Long personId) {
+		Optional<Person> person = personRepository.findById(personId);
+		personRepository.delete(person.get());
+	}
 }
