@@ -20,5 +20,5 @@ public class Address {
 	
 	private String state;
 	
-	private Boolean active;
+	
 }
