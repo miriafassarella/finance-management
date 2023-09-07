@@ -1,6 +1,6 @@
 package com.mabrasoft.financemanagement.domain.model;
 
-public enum EntryType {
+public enum Type {
 	
 	REVENUE,
 	EXPENSE
