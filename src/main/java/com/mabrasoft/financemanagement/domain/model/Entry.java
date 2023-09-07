@@ -2,15 +2,13 @@ package com.mabrasoft.financemanagement.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
+
 import jakarta.persistence.Entity;
-
-
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,7 +39,7 @@ public class Entry {
 	
 	private String observation;
 	
-	@Embedded()
+	@Enumerated(EnumType.STRING)
 	private Type type;
 	
 	@ManyToOne

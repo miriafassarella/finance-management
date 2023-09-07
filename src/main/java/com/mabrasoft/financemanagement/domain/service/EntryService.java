@@ -23,4 +23,8 @@ public class EntryService {
 		Optional<Entry> entry = entryRepository.findById(entryId);
 		return entry.get();
 	}
+	
+	public Entry add(Entry entry) {
+		return entryRepository.save(entry);
+	}
 }
