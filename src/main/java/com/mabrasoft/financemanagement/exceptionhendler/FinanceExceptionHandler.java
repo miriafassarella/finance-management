@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -54,6 +55,14 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 			String userMessage = messageSource.getMessage("resource.not-found", null, LocaleContextHolder.getLocale());
 			List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
 			return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+		}
+		
+		@ExceptionHandler({DataIntegrityViolationException.class})
+		public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request){
+			String developerMessage = ExceptionUtils.getRootCauseMessage(ex);
+			String userMessage = messageSource.getMessage("operation.not-allowed", null, LocaleContextHolder.getLocale());
+			List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
+			return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 		}
 		
 		
