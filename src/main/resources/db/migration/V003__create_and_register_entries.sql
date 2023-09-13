@@ -13,10 +13,7 @@ CREATE TABLE entry(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO entry(description, due_date, pay_day, price, observation, type, id_category, id_person)
-VALUES ('Monthly salary', '2023-08-06', '2023-08-10', 100.32, 'Profit distribution', 'Revenue', 2, 5);
+VALUES ('Monthly salary', '2023-08-06', '2023-08-10', 100.32, 'Profit distribution', 'REVENUE', 2, 1);
 
 INSERT INTO entry(description, due_date, pay_day, price, observation, type, id_category, id_person)
-VALUES ('Coffee', '2023-08-06', '2023-08-15', 10.20, null, 'Expense', 3, 6);
-
-INSERT INTO entry(description, due_date, pay_day, price, observation, type, id_category, id_person)
-VALUES ('Coffee', '2023-08-06', '2023-08-20', 15.20, null, 'Expense', 1, 5);
+VALUES ('Coffee', '2023-08-06', '2023-08-15', 10.20, null, 'EXPENSE', 3, 1);

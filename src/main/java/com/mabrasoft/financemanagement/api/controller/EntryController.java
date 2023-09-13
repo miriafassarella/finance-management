@@ -1,3 +1,4 @@
+
 package com.mabrasoft.financemanagement.api.controller;
 
 import java.util.List;
@@ -5,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +44,12 @@ public class EntryController {
 	public ResponseEntity<Entry> entryAdd(@Valid @RequestBody Entry entry){
 		Entry savedEntry = entryService.add(entry);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedEntry);
+	}
+	
+	@DeleteMapping("/{entryId}")
+	public ResponseEntity<Entry> entryRemove(@PathVariable Long entryId){
+		entryService.remove(entryId);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		
 	}
 }

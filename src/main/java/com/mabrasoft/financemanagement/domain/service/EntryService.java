@@ -1,3 +1,4 @@
+
 package com.mabrasoft.financemanagement.domain.service;
 
 import java.util.List;
@@ -26,5 +27,10 @@ public class EntryService {
 	
 	public Entry add(Entry entry) {
 		return entryRepository.save(entry);
+	}
+	
+	public void remove(Long entryId) {
+		Optional<Entry> entry = entryRepository.findById(entryId);
+		entryRepository.delete(entry.get());
 	}
 }

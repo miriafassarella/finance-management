@@ -1,3 +1,4 @@
+
 package com.mabrasoft.financemanagement.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
