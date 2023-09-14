@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mabrasoft.financemanagement.domain.model.Entry;
 import com.mabrasoft.financemanagement.domain.service.EntryService;
+import com.mabrasoft.financemanagement.domain.service.exception.PersonNotExistException;
 
 import jakarta.validation.Valid;
 
@@ -41,9 +42,13 @@ public class EntryController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Entry> entryAdd(@Valid @RequestBody Entry entry){
+	public ResponseEntity<?> entryAdd(@Valid @RequestBody Entry entry){
+		try {
 		Entry savedEntry = entryService.add(entry);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedEntry);
+		}catch(PersonNotExistException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/{entryId}")
