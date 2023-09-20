@@ -1,2 +1,2 @@
 # finance-management
-Financial posting Rest API
+Finance Rest API
