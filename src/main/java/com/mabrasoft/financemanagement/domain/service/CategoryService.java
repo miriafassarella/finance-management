@@ -1,8 +1,10 @@
 package com.mabrasoft.financemanagement.domain.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +36,11 @@ public class CategoryService {
 		Optional<Category> category = categoryRepository.findById(categoryId);
 		categoryRepository.delete(category.get());
 	}
+	/*
+	 * public Category update(Long categoryId, Category category) {
+	 * Optional<Category> currentCategory = categoryRepository.findById(categoryId);
+	 * if(currentCategory.isEmpty()) { throw new NoSuchElementException(); }
+	 * category.setId(categoryId); BeanUtils.copyProperties(currentCategory,
+	 * category); return categoryRepository.save(category); }
+	 */
 }

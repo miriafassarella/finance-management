@@ -37,9 +37,8 @@ public class PersonService {
 		if(currentPerson.isEmpty()) {
 			throw new NoSuchElementException();
 		}
-		person.setId(personId);
-		BeanUtils.copyProperties(person, currentPerson);
-		return personRepository.save(person);
+		BeanUtils.copyProperties(person, currentPerson.get(), "id");;
+		return personRepository.save(currentPerson.get());
 		
 	}
 }
