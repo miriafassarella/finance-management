@@ -1,6 +1,7 @@
 package com.mabrasoft.financemanagement.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,28 @@ public class PersonController {
 	public List<Person> personList(){
 		return personService.list();
 	}
+	
+	@GetMapping("/by-name")
+	public List<Person> byName(String name){
+		return personService.byName(name);
+	}
+	
+	@GetMapping("/name-active")
+	public List<Person> byNameAndActive(String name, Boolean active){
+		return personService.byNameAndActive(name, active);
+	}
+	
+	@GetMapping("/name-2")
+	public List<Person> byName2(String name){
+		return personService.byName2(name);
+	}
+	
+	@GetMapping("/name-first")
+	public Optional<Person> byNameFirst(String name){
+		return personService.byNameFirst(name);
+	}
+	
+	
 	@GetMapping("/{personId}")
 	public ResponseEntity<Person> personSearch(@PathVariable Long personId){
 		Person person = personService.search(personId);

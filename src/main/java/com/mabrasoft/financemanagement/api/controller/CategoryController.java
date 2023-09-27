@@ -52,6 +52,11 @@ public class CategoryController {
 		return categoryService.byName(name);
 	}
 	
+	@GetMapping("/exists")
+	public boolean nameExists(String name) {
+		return categoryService.nameExists(name);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Category> categoryAdd(@Valid @RequestBody Category category, HttpServletResponse response){
 		category = categoryService.add(category);

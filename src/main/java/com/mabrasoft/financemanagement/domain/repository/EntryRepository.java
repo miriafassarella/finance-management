@@ -14,4 +14,9 @@ import com.mabrasoft.financemanagement.domain.model.Entry;
 public interface EntryRepository extends JpaRepository<Entry, Long>{
 
 	List<Entry> findByprice(BigDecimal price);
+	
+	/*Query between one value and another value*/
+	List<Entry> findBypriceBetween(BigDecimal priceInitial, BigDecimal priceFinal);
+	
+	int countBycategory_id(Long category);
 }

@@ -31,6 +31,13 @@ public class EntryService {
 	public List<Entry> byPrice(BigDecimal price){
 		return entryRepository.findByprice(price);
 	}
+	public List<Entry> byPriceBetween(BigDecimal priceInitial, BigDecimal priceFinal){
+		return entryRepository.findBypriceBetween(priceInitial, priceFinal);
+	}
+	
+	public int byCategoyId(Long categoryId) {
+		return entryRepository.countBycategory_id(categoryId);
+	}
 	
 	public Entry search(Long entryId) {
 		Optional<Entry> entry = entryRepository.findById(entryId);

@@ -48,6 +48,16 @@ public class EntryController {
 		return entryService.byPrice(price);
 	}
 	
+	@GetMapping("/categoryId")
+	public int byCategoryId(Long categoryId) {
+		return entryService.byCategoyId(categoryId);
+	}
+	
+	@GetMapping("/price-between")
+	public List<Entry> byPriceBetween(BigDecimal priceInitial, BigDecimal priceFinal){
+		return entryService.byPriceBetween(priceInitial, priceFinal);
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> entryAdd(@Valid @RequestBody Entry entry){
 		try {

@@ -25,6 +25,10 @@ public class CategoryService {
 		return categoryRepository.findByname(name);
 	}
 	
+	public boolean nameExists(String name) {
+		return categoryRepository.existsByName(name);
+	}
+	
 	public Category search(Long categoryId) {
 		Optional<Category> category =  categoryRepository.findById(categoryId);
 		

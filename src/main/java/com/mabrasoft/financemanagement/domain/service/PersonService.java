@@ -20,6 +20,22 @@ public class PersonService {
 	public List<Person> list(){
 		return personRepository.findAll();
 	}
+	
+	public List<Person> byName(String name){
+		return personRepository.findBynameContaining(name);
+	}
+	
+	public List<Person> byNameAndActive(String name, Boolean active){
+		return personRepository.findBynameContainingAndActive(name, active);
+	}
+	
+	public List<Person> byName2(String name){
+		return personRepository.findTop2BynameContaining(name);
+	}
+	
+	public Optional<Person> byNameFirst(String name){
+		return personRepository.findFirstBynameContaining(name);
+	}
 	public Person search(Long personId) {
 		Optional<Person> person = personRepository.findById(personId);
 		return person.get();
