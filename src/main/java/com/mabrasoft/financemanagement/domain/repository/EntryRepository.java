@@ -13,5 +13,5 @@ import com.mabrasoft.financemanagement.domain.model.Entry;
 
 public interface EntryRepository extends JpaRepository<Entry, Long>{
 
-	List<Entry> price(BigDecimal price);
+	List<Entry> findByprice(BigDecimal price);
 }

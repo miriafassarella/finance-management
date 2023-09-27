@@ -29,7 +29,7 @@ public class EntryService {
 		return entryRepository.findAll();
 	}
 	public List<Entry> byPrice(BigDecimal price){
-		return entryRepository.price(price);
+		return entryRepository.findByprice(price);
 	}
 	
 	public Entry search(Long entryId) {

@@ -2,6 +2,7 @@ package com.mabrasoft.financemanagement.api.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,11 @@ public class CategoryController {
 	
 			Category category = categoryService.search(categoryId);
 			return ResponseEntity.status(HttpStatus.FOUND).body(category);
+	}
+	
+	@GetMapping("/by-name")
+	public Optional<Category> byName(String name){
+		return categoryService.byName(name);
 	}
 	
 	@PostMapping
