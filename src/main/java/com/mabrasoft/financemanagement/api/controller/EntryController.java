@@ -48,7 +48,12 @@ public class EntryController {
 		return entryService.byPrice(price);
 	}
 	
-	@GetMapping("/categoryId")
+	@GetMapping("/by-description")
+	public List<Entry> searchDescription(String description){
+		return entryService.searchDescription(description);
+	}
+	
+	@GetMapping("/by-categoryId")
 	public int byCategoryId(Long categoryId) {
 		return entryService.byCategoyId(categoryId);
 	}
