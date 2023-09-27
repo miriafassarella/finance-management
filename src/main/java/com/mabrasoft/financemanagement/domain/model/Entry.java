@@ -34,7 +34,7 @@ public class Entry {
 	
 	@NotNull
 	@Column(name = "due_date")
-	private LocalDate DueDate;
+	private LocalDate dueDate;
 	
 	@NotNull
 	@Column(name = "pay_day")

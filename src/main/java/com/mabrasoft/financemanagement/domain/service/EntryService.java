@@ -1,9 +1,12 @@
 
 package com.mabrasoft.financemanagement.domain.service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,9 @@ public class EntryService {
 	public List<Entry> list(){
 		return entryRepository.findAll();
 	}
+	public List<Entry> byPrice(BigDecimal price){
+		return entryRepository.price(price);
+	}
 	
 	public Entry search(Long entryId) {
 		Optional<Entry> entry = entryRepository.findById(entryId);
@@ -39,10 +45,21 @@ public class EntryService {
 		}
 		
 		return entryRepository.save(entry);
+		
 	}
 	
 	public void remove(Long entryId) {
 		Optional<Entry> entry = entryRepository.findById(entryId);
 		entryRepository.delete(entry.get());
+	}
+	
+	public Entry update(Long entreId, Entry entry) {
+		Optional<Entry> currentEntry = entryRepository.findById(entreId);
+		
+		if(currentEntry.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		BeanUtils.copyProperties(entry, currentEntry.get(), "id");
+		return entryRepository.save(currentEntry.get());
 	}
 }

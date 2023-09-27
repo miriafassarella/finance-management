@@ -36,11 +36,16 @@ public class CategoryService {
 		Optional<Category> category = categoryRepository.findById(categoryId);
 		categoryRepository.delete(category.get());
 	}
-	/*
-	 * public Category update(Long categoryId, Category category) {
-	 * Optional<Category> currentCategory = categoryRepository.findById(categoryId);
-	 * if(currentCategory.isEmpty()) { throw new NoSuchElementException(); }
-	 * category.setId(categoryId); BeanUtils.copyProperties(currentCategory,
-	 * category); return categoryRepository.save(category); }
-	 */
+	
+	public Category update(Long categoryId, Category category) {
+	  Optional<Category> currentCategory = categoryRepository.findById(categoryId);
+	  
+	  if(currentCategory.isEmpty()) 
+	  { 
+		  throw new NoSuchElementException(); 
+	  }
+	  BeanUtils.copyProperties(category, currentCategory.get(), "id"); 
+	  return categoryRepository.save(currentCategory.get());
+	  }
+	 
 }

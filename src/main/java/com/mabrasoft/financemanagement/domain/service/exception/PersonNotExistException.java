@@ -1,6 +1,6 @@
 package com.mabrasoft.financemanagement.domain.service.exception;
 
-public class PersonNotExistException extends RuntimeException {
+public class PersonNotExistException  extends RuntimeException{
 
 	/**
 	 * 
@@ -10,5 +10,5 @@ public class PersonNotExistException extends RuntimeException {
 	public PersonNotExistException(String message) {
 		super(message);
 	}
-
+	
 }

@@ -1,6 +1,7 @@
 
 package com.mabrasoft.financemanagement.api.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -41,6 +43,11 @@ public class EntryController {
 		return ResponseEntity.status(HttpStatus.FOUND).body(entry);
 	}
 	
+	@GetMapping("/by-price")
+	public List<Entry> byPrice(BigDecimal price){
+		return entryService.byPrice(price);
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> entryAdd(@Valid @RequestBody Entry entry){
 		try {
@@ -57,4 +64,10 @@ public class EntryController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		
 	}
-}
+	
+	@PutMapping("/{entryId}")
+	public ResponseEntity<Entry> entryUpdate(@PathVariable Long entryId, @RequestBody Entry entry){
+		Entry entrySave = entryService.update(entryId, entry);
+		return ResponseEntity.status(HttpStatus.OK).body(entrySave);
+	}
+ }
