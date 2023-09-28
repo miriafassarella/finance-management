@@ -11,12 +11,12 @@ import org.springframework.data.jpa.repository.Query;
 import com.mabrasoft.financemanagement.domain.model.Entry;
 
 
-public interface EntryRepository extends JpaRepository<Entry, Long>{
+public interface EntryRepository extends JpaRepository<Entry, Long>, QueriesEntryRepository{
 
 	List<Entry> findByprice(BigDecimal price);
 	
 	@Query("from Entry where description like %:description%")
-	List<Entry> incompletDescription(String description);
+	List<Entry> incompleteDescription(String description);
 	
 	/*Query between one value and another value*/
 	List<Entry> findBypriceBetween(BigDecimal priceInitial, BigDecimal priceFinal);

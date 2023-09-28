@@ -28,11 +28,15 @@ public class EntryService {
 	public List<Entry> list(){
 		return entryRepository.findAll();
 	}
+	public List<Entry> searchPriceBetweenPrice(String description,
+			BigDecimal priceInitial, BigDecimal priceFinal){
+		return entryRepository.find(description, priceInitial, priceFinal);
+	}
 	public List<Entry> byPrice(BigDecimal price){
 		return entryRepository.findByprice(price);
 	}
 	public List<Entry> searchDescription(String description){
-		return entryRepository.incompletDescription(description);
+		return entryRepository.incompleteDescription(description);
 	}
 	
 	public List<Entry> byPriceBetween(BigDecimal priceInitial, BigDecimal priceFinal){

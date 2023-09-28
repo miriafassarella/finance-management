@@ -42,6 +42,11 @@ public class EntryController {
 		Entry entry = entryService.search(entryId);
 		return ResponseEntity.status(HttpStatus.FOUND).body(entry);
 	}
+	@GetMapping("/price-description")
+	public List<Entry> searchPriceBetweenPrice(String description,
+			BigDecimal priceInitial, BigDecimal priceFinal){
+		return entryService.searchPriceBetweenPrice(description, priceInitial, priceFinal);
+	}
 	
 	@GetMapping("/by-price")
 	public List<Entry> byPrice(BigDecimal price){
