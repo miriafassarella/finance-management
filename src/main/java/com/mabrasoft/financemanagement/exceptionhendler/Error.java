@@ -1,17 +1,16 @@
 package com.mabrasoft.financemanagement.exceptionhendler;
 
+import java.time.LocalDateTime;
+
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+
 
 @Getter
-@Setter
+@Builder
 public class Error {
-	private String userMessage;
-	private String developerMessage;
+	private LocalDateTime dateHour;
+	private String message;
 	
-	public Error(String userMessage, String developerMessage) {
-		this.userMessage = userMessage;
-		this.developerMessage = developerMessage;
-
-}
+	
 }

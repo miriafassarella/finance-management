@@ -36,11 +36,11 @@ public class EntryService {
 		return entryRepository.findByprice(price);
 	}
 	public List<Entry> searchDescription(String description){
-		return entryRepository.incompleteDescription(description);
+		return entryRepository.findByDescriptionContaining(description);
 	}
 	
 	public List<Entry> byPriceBetween(BigDecimal priceInitial, BigDecimal priceFinal){
-		return entryRepository.findBypriceBetween(priceInitial, priceFinal);
+		return entryRepository.findByPriceBetween(priceInitial, priceFinal);
 	}
 	
 	public int byCategoyId(Long categoryId) {
