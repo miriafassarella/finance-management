@@ -1,7 +1,6 @@
 package com.mabrasoft.financemanagement.exceptionhendler;
 
-
-import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -23,22 +22,50 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 	
 		
 		@ExceptionHandler({DataIntegrityViolationException.class})
-		public ResponseEntity<?> treatDataIntegrity(DataIntegrityViolationException ex, WebRequest request){
+		public ResponseEntity<?> handleDataIntegrity(DataIntegrityViolationException ex, WebRequest request){
 			return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 			
 		}
 		
+		@ExceptionHandler(NoSuchElementException.class)
+		public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException ex, WebRequest request){
+			
+			HttpStatusCode status = HttpStatus.NOT_FOUND;
+			ErrorType errorType = ErrorType.ENTITY_NOT_FOUND;
+			String detail = ex.getMessage();
+			
+			Error error = createErrorBuilder(status, errorType, detail).build();
+			
+			
+			return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+		}
+		
 		@Override
 		protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-			HttpStatusCode statusCode, WebRequest request) {
+			HttpStatusCode status, WebRequest request) {
 			
+			if(body == null) {
 			body = Error.builder()
-					.dateHour(LocalDateTime.now())
-					.message(ex.getMessage())
+					.title(ex.getMessage())
+					.status(status.value())
 					.build();
-		
-		return super.handleExceptionInternal(ex, body, headers, statusCode, request);
+			}else if(body instanceof String) {
+				body = Error.builder()
+						.title((String) body)
+						.status(status.value())
+						.build();
+			}
+		return super.handleExceptionInternal(ex, body, headers, status, request);
 		}
-			
+		
+		private Error.ErrorBuilder createErrorBuilder(HttpStatusCode status,
+				ErrorType errorType, String detail) {
+			return Error.builder()
+					.status(status.value())
+					.type(errorType.getUri())
+					.title(errorType.getTitle())
+					.detail(detail);
+		}
+		
 	}
 
