@@ -18,5 +18,7 @@ public class Error {
 	private String title;
 	private String detail;
 	
+	private String userMessage;
+	
 	
 }

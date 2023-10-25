@@ -19,11 +19,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice //it observes the entire application
 public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 
-	
+		public static final String MSG_ERROR_USER
+		= "An internal system error has occurred."
+				+ " Try again and if the problem persists,"
+				+ " contact your system administrator.";
 		
 		@ExceptionHandler({DataIntegrityViolationException.class})
 		public ResponseEntity<?> handleDataIntegrity(DataIntegrityViolationException ex, WebRequest request){
-			return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+			
+			HttpStatusCode status = HttpStatus.BAD_REQUEST;
+			ErrorType errorType = ErrorType.ENTITY_IN_USE;
+			String detail = MSG_ERROR_USER;
+			
+			Error error = createErrorBuilder(status, errorType, detail)
+					.userMessage(detail)
+					.build();
+			
+			return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 			
 		}
 		
@@ -32,12 +44,14 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 			
 			HttpStatusCode status = HttpStatus.NOT_FOUND;
 			ErrorType errorType = ErrorType.ENTITY_NOT_FOUND;
-			String detail = ex.getMessage();
+			String detail = MSG_ERROR_USER;
 			
-			Error error = createErrorBuilder(status, errorType, detail).build();
+			Error error = createErrorBuilder(status, errorType, detail)
+					.userMessage(detail)
+					.build();
 			
 			
-			return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+			return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 		}
 		
 		@Override
