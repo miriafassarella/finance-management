@@ -7,8 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-
-
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -24,15 +23,29 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 				+ " Try again and if the problem persists,"
 				+ " contact your system administrator.";
 		
+		@Override
+		protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+			
+			ErrorType errorType = ErrorType.MESSAGE_INCOMPREHENSIBLE;
+			String detail = ex.getMessage();
+			
+			Error error = createErrorBuilder(status, errorType, detail)
+					.userMessage(MSG_ERROR_USER)
+					.build();
+		
+			return handleExceptionInternal(ex, error, headers, status, request);
+		}
+		
 		@ExceptionHandler({DataIntegrityViolationException.class})
 		public ResponseEntity<?> handleDataIntegrity(DataIntegrityViolationException ex, WebRequest request){
 			
 			HttpStatusCode status = HttpStatus.BAD_REQUEST;
 			ErrorType errorType = ErrorType.ENTITY_IN_USE;
-			String detail = MSG_ERROR_USER;
+			String detail = ex.getMessage();
 			
 			Error error = createErrorBuilder(status, errorType, detail)
-					.userMessage(detail)
+					.userMessage(MSG_ERROR_USER)
 					.build();
 			
 			return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
@@ -44,10 +57,10 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 			
 			HttpStatusCode status = HttpStatus.NOT_FOUND;
 			ErrorType errorType = ErrorType.ENTITY_NOT_FOUND;
-			String detail = MSG_ERROR_USER;
+			String detail = ex.getMessage();
 			
 			Error error = createErrorBuilder(status, errorType, detail)
-					.userMessage(detail)
+					.userMessage(MSG_ERROR_USER)
 					.build();
 			
 			

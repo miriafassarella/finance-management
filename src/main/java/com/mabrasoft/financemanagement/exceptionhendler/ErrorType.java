@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum ErrorType {
 
 	ENTITY_NOT_FOUND("/entity-not-found", "Entity not found"),
-	ENTITY_IN_USE("/entity-in-use", "The entity is in use");
+	ENTITY_IN_USE("/entity-in-use", "The entity is in use"),
+	MESSAGE_INCOMPREHENSIBLE("/message-incomprehensible", "The message is imcomprehensible");
 	
 	private String title;
 	private String uri;
