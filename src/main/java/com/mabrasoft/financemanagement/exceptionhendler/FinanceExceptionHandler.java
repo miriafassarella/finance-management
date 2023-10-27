@@ -1,7 +1,9 @@
 package com.mabrasoft.financemanagement.exceptionhendler;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 
 @ControllerAdvice //it observes the entire application
@@ -27,8 +31,14 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 		protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 			
+			Throwable rootCause = ExceptionUtils.getRootCause(ex);
+			
+			if(rootCause instanceof InvalidFormatException) {
+				return handleInvalidFormatExcepetion((InvalidFormatException)rootCause, headers, status, request);
+			}
+			
 			ErrorType errorType = ErrorType.MESSAGE_INCOMPREHENSIBLE;
-			String detail = ex.getMessage();
+			String detail = "The request body is invalid. Check syntax error.";
 			
 			Error error = createErrorBuilder(status, errorType, detail)
 					.userMessage(MSG_ERROR_USER)
@@ -37,6 +47,26 @@ public class FinanceExceptionHandler extends ResponseEntityExceptionHandler {
 			return handleExceptionInternal(ex, error, headers, status, request);
 		}
 		
+				/*Creating a detail*/
+		private ResponseEntity<Object> handleInvalidFormatExcepetion(InvalidFormatException ex,
+				HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+			
+				/*Collectors*/
+			String path = ex.getPath().stream().map(ref-> ref.getFieldName())
+					.collect(Collectors.joining("."));
+			
+			ErrorType errorType = ErrorType.MESSAGE_INCOMPREHENSIBLE;
+			String detail = String.format("The property '%s' has been assigned the value '%s',"
+					+ "which is of an invalid type. Correct and enter a value compatible with type %s.", path, ex.getValue(),
+					ex.getTargetType().getSimpleName());
+			
+			Error error = createErrorBuilder(status, errorType, detail)
+					.userMessage(MSG_ERROR_USER)
+					.build();
+			
+			return handleExceptionInternal(ex, error, headers, status, request);
+		}
+
 		@ExceptionHandler({DataIntegrityViolationException.class})
 		public ResponseEntity<?> handleDataIntegrity(DataIntegrityViolationException ex, WebRequest request){
 			
